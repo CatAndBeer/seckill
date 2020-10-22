@@ -1,5 +1,6 @@
 package com.catandbeer.seckill;
 
+import com.catandbeer.seckill.utils.MD5Util;
 import com.catandbeer.seckill.utils.RedisUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.Jedis;
 
 @SpringBootTest
-class SeckillApplicationTests {
+class SecKillApplicationTests {
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
     private RedisUtil redisUtil;
+
+    @Test
+    void testMd5() {
+        System.out.println(MD5Util.md5("123456"));
+    }
 
     @Test
     void testJedis() {
@@ -28,16 +34,19 @@ class SeckillApplicationTests {
 
     @Test
     void redisTemplate() {
-        redisTemplate.opsForValue().set("myvalue", "world");
-        String myvalue = (String) redisTemplate.opsForValue().get("myvalue");
-        System.out.println(myvalue);
+        redisTemplate.opsForValue().set("myValue", "world");
+        String myValue = (String) redisTemplate.opsForValue().get("myValue");
+        System.out.println(myValue);
     }
+
     @Test
-    void testRedisUtil(){
+    void testRedisUtil() {
         redisUtil.deleteAll();
-        redisUtil.set("test","tt");
+        redisUtil.set("test", "测试中文");
         String test = (String) redisUtil.get("test");
         System.out.println(test);
+        redisUtil.set("test1", "test English");
+        System.out.println(redisUtil.get("test1"));
     }
 
 }
